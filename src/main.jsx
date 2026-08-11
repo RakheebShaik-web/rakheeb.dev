@@ -93,9 +93,10 @@ function App() {
   const [open, setOpen] = useState(0);
   const [palette, setPalette] = useState(false);
   const [active, setActive] = useState("top");
-  const [theme, setTheme] = useState(() => localStorage.getItem("rakheeb-theme") || "light");
+  const [theme, setTheme] = useState(() => localStorage.getItem("rakheeb-theme") || "dark");
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
+    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", theme === "dark" ? "#070706" : "#f1efe9");
     localStorage.setItem("rakheeb-theme", theme);
   }, [theme]);
   useEffect(() => {
