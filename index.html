@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#070706" />
     <script>
+      if (localStorage.getItem("rakheeb-theme-version") !== "2") {
+        localStorage.setItem("rakheeb-theme", "dark");
+        localStorage.setItem("rakheeb-theme-version", "2");
+      }
       document.documentElement.dataset.theme = localStorage.getItem("rakheeb-theme") || "dark";
     </script>
     <meta name="description" content="Rakheeb — algorithmic trader and quant developer building systematic strategies across US equities and NSE derivatives." />
