@@ -127,7 +127,7 @@ body{overflow-x:hidden}.section,.hero{scroll-margin-top:66px}.about-copy,.work-h
     position:relative;
     z-index:1;
     height:430px;
-    margin-top:clamp(72px,20vw,104px);
+    margin-top:clamp(28px,8vw,44px);
     mask-image:linear-gradient(to bottom,transparent 0%,transparent 17%,rgba(0,0,0,.18) 29%,rgba(0,0,0,.72) 43%,#000 56%,#000 91%,transparent 100%);
     -webkit-mask-image:linear-gradient(to bottom,transparent 0%,transparent 17%,rgba(0,0,0,.18) 29%,rgba(0,0,0,.72) 43%,#000 56%,#000 91%,transparent 100%);
   }
@@ -173,13 +173,18 @@ html[data-theme="dark"] .hero-art:after{
   }
   .hero-art img{
     -webkit-mask-image:
-      linear-gradient(to right,transparent 0%,rgba(0,0,0,.45) 12%,#000 28%,#000 88%,transparent 100%),
-      linear-gradient(to bottom,transparent 0%,transparent 12%,rgba(0,0,0,.42) 28%,#000 46%,#000 84%,transparent 100%);
+      linear-gradient(to right,transparent 0%,rgba(0,0,0,.68) 8%,#000 20%,#000 92%,rgba(0,0,0,.7) 97%,transparent 100%),
+      linear-gradient(to bottom,transparent 0%,rgba(0,0,0,.3) 5%,rgba(0,0,0,.82) 13%,#000 21%,#000 91%,rgba(0,0,0,.65) 97%,transparent 100%);
     -webkit-mask-composite:source-in;
     mask-image:
-      linear-gradient(to right,transparent 0%,rgba(0,0,0,.45) 12%,#000 28%,#000 88%,transparent 100%),
-      linear-gradient(to bottom,transparent 0%,transparent 12%,rgba(0,0,0,.42) 28%,#000 46%,#000 84%,transparent 100%);
+      linear-gradient(to right,transparent 0%,rgba(0,0,0,.68) 8%,#000 20%,#000 92%,rgba(0,0,0,.7) 97%,transparent 100%),
+      linear-gradient(to bottom,transparent 0%,rgba(0,0,0,.3) 5%,rgba(0,0,0,.82) 13%,#000 21%,#000 91%,rgba(0,0,0,.65) 97%,transparent 100%);
     mask-composite:intersect;
+    opacity:.92;
+  }
+  html[data-theme="dark"] .hero-art img{
+    opacity:.76;
+    filter:invert(1) grayscale(1) contrast(1.05);
   }
 }
 
