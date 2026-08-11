@@ -169,7 +169,7 @@ html[data-theme="dark"] .hero-art:after{
   .hero-art{
     mask-image:none;
     -webkit-mask-image:none;
-    overflow:visible;
+    overflow:hidden;
   }
   .hero-art img{
     -webkit-mask-image:
@@ -180,5 +180,35 @@ html[data-theme="dark"] .hero-art:after{
       linear-gradient(to right,transparent 0%,rgba(0,0,0,.45) 12%,#000 28%,#000 88%,transparent 100%),
       linear-gradient(to bottom,transparent 0%,transparent 12%,rgba(0,0,0,.42) 28%,#000 46%,#000 84%,transparent 100%);
     mask-composite:intersect;
+  }
+}
+
+/* Keep iOS browser chrome and the mobile navigation visually clean. */
+@media(max-width:600px){
+  .nav{
+    isolation:isolate;
+    background:#070706;
+  }
+  .nav:before{
+    content:"";
+    position:absolute;
+    z-index:-1;
+    left:0;
+    right:0;
+    bottom:0;
+    height:calc(100% + env(safe-area-inset-top) + 64px);
+    background:#070706;
+    pointer-events:none;
+  }
+  .hero{
+    isolation:isolate;
+  }
+  .hero-copy{
+    position:relative;
+    z-index:3;
+  }
+  .hero-art{
+    z-index:1;
+    contain:paint;
   }
 }
