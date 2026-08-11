@@ -145,6 +145,60 @@ body{overflow-x:hidden}.section,.hero{scroll-margin-top:66px}.about-copy,.work-h
   }
 }
 
+/* Contact micro-interactions: directional fill, precise arrow motion, and scroll fill. */
+.contact-heading{
+  width:100%;
+  max-width:1480px;
+  margin-left:auto;
+  margin-right:auto;
+}
+.contact-heading h2{
+  margin-bottom:clamp(56px,5vw,76px);
+}
+.contact-heading h2 em{
+  background-image:linear-gradient(var(--white),var(--white));
+  background-repeat:no-repeat;
+  background-position:left center;
+  background-size:0% 100%;
+  -webkit-background-clip:text;
+  background-clip:text;
+  transition:background-size 1.15s cubic-bezier(.16,1,.3,1) .28s;
+}
+.contact-heading.reveal[data-visible="true"] h2 em{
+  background-size:100% 100%;
+}
+.contact-actions a{
+  background-image:linear-gradient(90deg,rgba(237,74,22,.09),rgba(237,74,22,.025));
+  background-repeat:no-repeat;
+  background-position:left center;
+  background-size:0% 100%;
+  transition:color .24s ease,background-size .55s cubic-bezier(.16,1,.3,1);
+}
+.contact-actions a:hover,
+.contact-actions a:focus-visible{
+  background-size:100% 100%;
+}
+.contact-actions>a>span:last-child{
+  display:inline-block;
+  transform:rotate(0deg);
+  transform-origin:center;
+  transition:color .22s ease,transform .32s cubic-bezier(.16,1,.3,1);
+}
+.contact-actions a:hover>span:last-child,
+.contact-actions a:focus-visible>span:last-child{
+  transform:rotate(-45deg);
+}
+@media(max-width:600px){
+  .contact-heading h2{
+    margin-bottom:44px;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .contact-heading h2 em{
+    background-size:100% 100%;
+  }
+}
+
 /* Give the selected-systems headline cleaner editorial spacing. */
 .work .work-heading h2{
   line-height:.96;
