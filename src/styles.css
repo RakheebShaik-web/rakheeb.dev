@@ -225,6 +225,11 @@ body{overflow-x:hidden}.section,.hero{scroll-margin-top:66px}.about-copy,.work-h
     width:13px;
   }
 }
+@media(max-width:760px){
+  .progress-nav{
+    display:none;
+  }
+}
 
 /* Give the selected-systems headline cleaner editorial spacing. */
 .work .work-heading h2{
