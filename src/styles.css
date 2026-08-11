@@ -231,6 +231,31 @@ body{overflow-x:hidden}.section,.hero{scroll-margin-top:66px}.about-copy,.work-h
   }
 }
 
+/* Professional disclosure and keyboard accessibility. */
+.legal-note{
+  width:100%;
+  max-width:1480px;
+  margin:clamp(54px,5vw,72px) auto 0;
+  padding-top:18px;
+  border-top:1px solid var(--line);
+  color:var(--dim);
+  font:400 9px/1.7 var(--mono);
+  letter-spacing:.04em;
+}
+:where(a,button):focus-visible{
+  outline:1px solid var(--blue);
+  outline-offset:5px;
+}
+.study button:focus-visible{
+  outline-offset:-4px;
+}
+@media(max-width:760px){
+  .legal-note{
+    margin-top:46px;
+    font-size:8px;
+  }
+}
+
 /* Credibility layer: experience facts and project system maps. */
 .experience-strip{
   width:100%;

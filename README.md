@@ -1,6 +1,6 @@
-# Rakheeb Shaik — Quant Portfolio
+# Rakheeb Shaikh — Quant Portfolio
 
-A personal portfolio for Rakheeb Shaik, an algorithmic trader and quant developer building systematic trading tools across U.S. equities and Indian options.
+A personal portfolio for Rakheeb Shaikh, an algorithmic trader and quant developer building systematic trading tools across U.S. equities and Indian options.
 
 **Live site:** [rakheeb.vercel.app](https://rakheeb.vercel.app/)
 
