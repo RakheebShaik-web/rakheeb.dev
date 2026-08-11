@@ -144,3 +144,41 @@ body{overflow-x:hidden}.section,.hero{scroll-margin-top:66px}.about-copy,.work-h
     top:calc(80px + env(safe-area-inset-top));
   }
 }
+
+/* Blend probability artwork into the hero field without visible bounds */
+.hero-art{
+  mask-image:none;
+  -webkit-mask-image:none;
+  overflow:visible;
+}
+.hero-art:after,
+html[data-theme="dark"] .hero-art:after{
+  background:none;
+}
+.hero-art img{
+  -webkit-mask-image:
+    linear-gradient(to right,transparent 0%,rgba(0,0,0,.08) 11%,rgba(0,0,0,.55) 25%,#000 40%,#000 86%,rgba(0,0,0,.45) 95%,transparent 100%),
+    linear-gradient(to bottom,transparent 0%,rgba(0,0,0,.55) 12%,#000 24%,#000 78%,rgba(0,0,0,.5) 91%,transparent 100%);
+  -webkit-mask-composite:source-in;
+  mask-image:
+    linear-gradient(to right,transparent 0%,rgba(0,0,0,.08) 11%,rgba(0,0,0,.55) 25%,#000 40%,#000 86%,rgba(0,0,0,.45) 95%,transparent 100%),
+    linear-gradient(to bottom,transparent 0%,rgba(0,0,0,.55) 12%,#000 24%,#000 78%,rgba(0,0,0,.5) 91%,transparent 100%);
+  mask-composite:intersect;
+}
+@media(max-width:600px){
+  .hero-art{
+    mask-image:none;
+    -webkit-mask-image:none;
+    overflow:visible;
+  }
+  .hero-art img{
+    -webkit-mask-image:
+      linear-gradient(to right,transparent 0%,rgba(0,0,0,.45) 12%,#000 28%,#000 88%,transparent 100%),
+      linear-gradient(to bottom,transparent 0%,transparent 12%,rgba(0,0,0,.42) 28%,#000 46%,#000 84%,transparent 100%);
+    -webkit-mask-composite:source-in;
+    mask-image:
+      linear-gradient(to right,transparent 0%,rgba(0,0,0,.45) 12%,#000 28%,#000 88%,transparent 100%),
+      linear-gradient(to bottom,transparent 0%,transparent 12%,rgba(0,0,0,.42) 28%,#000 46%,#000 84%,transparent 100%);
+    mask-composite:intersect;
+  }
+}
