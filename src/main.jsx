@@ -90,7 +90,7 @@ function GenerativeVisual({ type }) {
 }
 
 function App() {
-  const [open, setOpen] = useState(0);
+  const [open, setOpen] = useState(-1);
   const [palette, setPalette] = useState(false);
   const [active, setActive] = useState("top");
   const [theme, setTheme] = useState(() => localStorage.getItem("rakheeb-theme") || "dark");
