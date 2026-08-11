@@ -231,6 +231,130 @@ body{overflow-x:hidden}.section,.hero{scroll-margin-top:66px}.about-copy,.work-h
   }
 }
 
+/* Credibility layer: experience facts and project system maps. */
+.experience-strip{
+  width:100%;
+  max-width:1480px;
+  margin:clamp(54px,6vw,88px) auto 0;
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  border-top:1px solid var(--line);
+  border-left:1px solid var(--line);
+}
+.experience-strip>div{
+  min-height:150px;
+  padding:24px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  border-right:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+.experience-strip small,.study-architecture>small{
+  margin-bottom:auto;
+  color:var(--blue);
+  font:500 8px var(--mono);
+  letter-spacing:.16em;
+}
+.experience-strip strong{
+  margin-top:32px;
+  color:var(--white);
+  font:500 13px/1.4 var(--mono);
+}
+.experience-strip span{
+  margin-top:6px;
+  color:var(--dim);
+  font:400 10px/1.5 var(--mono);
+}
+.study.active .study-detail{
+  max-height:520px;
+}
+.study-architecture{
+  grid-column:1/-1;
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:18px 28px;
+  align-items:end;
+  padding-top:28px;
+  border-top:1px solid var(--line);
+}
+.study-architecture>small{
+  grid-column:1/-1;
+}
+.study-architecture>div{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:10px;
+}
+.study-architecture>div span{
+  padding:8px 10px;
+  border:1px solid var(--line);
+  color:var(--white);
+  font:500 8px var(--mono);
+  letter-spacing:.1em;
+}
+.study-architecture>div i{
+  color:var(--blue);
+  font:400 11px var(--mono);
+  font-style:normal;
+}
+.study-architecture>a{
+  color:var(--blue);
+  text-decoration:none;
+  white-space:nowrap;
+  font:500 9px var(--mono);
+  letter-spacing:.12em;
+}
+.study-architecture>a b{
+  display:inline-block;
+  margin-left:6px;
+  font-weight:400;
+  transition:transform .25s ease;
+}
+.study-architecture>a:hover b{
+  transform:translate(3px,-3px);
+}
+
+/* Touch screens show the real tool colors; press still activates the orange signal. */
+@media(hover:none),(pointer:coarse){
+  .tool-logo,
+  .tool:hover .tool-logo,
+  html[data-theme="dark"] .tool-logo,
+  html[data-theme="dark"] .tool:hover .tool-logo{
+    filter:grayscale(0) brightness(1);
+  }
+  .tool:active .tool-logo{
+    transform:translateY(-3px) scale(1.04);
+  }
+}
+@media(max-width:760px){
+  .experience-strip{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    margin-top:48px;
+  }
+  .experience-strip>div{
+    min-height:132px;
+    padding:17px;
+  }
+  .experience-strip strong{
+    font-size:11px;
+  }
+  .study.active .study-detail{
+    max-height:1180px;
+  }
+  .study-architecture{
+    grid-template-columns:1fr;
+    padding-top:22px;
+  }
+  .study-architecture>div{
+    gap:7px;
+  }
+  .study-architecture>a{
+    margin-top:4px;
+  }
+}
+
 /* Give the selected-systems headline cleaner editorial spacing. */
 .work .work-heading h2{
   line-height:.96;
