@@ -510,7 +510,6 @@ html[data-theme="dark"] .gh-month{fill:#909090}
 /* scroll progress bar */
 .progress-bar{position:fixed;top:0;left:0;height:4px;width:0%;background:var(--blue);z-index:99;transition:width .1s linear}
 .progress-bar div{width:100%}
-`@
 /* custom scrollbar */
 ::-webkit-scrollbar{width:8px}
 ::-webkit-scrollbar-track{background:var(--black)}
