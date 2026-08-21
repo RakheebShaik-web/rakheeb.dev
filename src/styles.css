@@ -489,7 +489,7 @@ html[data-theme="dark"] .hero-art:after{
 html[data-theme="dark"] .gh-cell.l0{fill:#383838}html[data-theme="dark"] .gh-cell.l1{fill:#656565}html[data-theme="dark"] .gh-cell.l2{fill:#919191}html[data-theme="dark"] .gh-cell.l3{fill:#bebebe}html[data-theme="dark"] .gh-cell.l4{fill:#ebebeb}
 html[data-theme="dark"] .gh-cell{stroke:rgba(255,255,255,.05)}
 html[data-theme="dark"] .gh-month{fill:#909090}
-.github-total{margin:14px 0 0;font:400 11px var(--mono);letter-spacing:.06em;color:var(--dim)}
+.github-total{margin:14px 0 0;font:500 15px var(--mono);letter-spacing:.03em;color:var(--white)}
 .gh-skeleton{min-height:108px;display:grid;place-items:center;border:1px dashed var(--line);font:400 9px var(--mono);letter-spacing:.18em;color:var(--dim);animation:ghPulse 1.6s ease-in-out infinite}
 @keyframes ghPulse{50%{opacity:.5}}
 @media(max-width:760px){.github-activity{margin-top:52px}.github-activity-head{letter-spacing:.12em;font-size:9px}.github-activity-head span:first-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
