@@ -110,7 +110,8 @@ function GithubActivity() {
           const m = new Date(d.date + "T00:00:00").getMonth();
           if (m !== lastM) { labels.push([i, m]); lastM = m; }
         });
-        setData({ weeks, labels, total: Object.values(j.total).reduce((s, n) => s + n, 0) });
+        const latestDate = days.length ? days[days.length-1].date : null;
+        setData({ weeks, labels, total: Object.values(j.total).reduce((s, n) => s + n, 0), latestDate });
       })
       .catch(() => setFailed(true));
   }, []);
@@ -138,7 +139,12 @@ function GithubActivity() {
       </svg>
       {tip && <span className={"gh-tip" + (tip.below ? " gh-tip-below" : "")} style={{ left: tip.x, top: tip.y }}><strong>{tip.count} contribution{tip.count === 1 ? "" : "s"}</strong><em>{tip.date}</em></span>}
     </a> : <div className="gh-skeleton" aria-hidden="true">LOADING CONTRIBUTION DATA…</div>}
-    {data && <p className="github-total">Total {data.total.toLocaleString("en-US")} contributions in lifetime</p>}
+    {data && (
+      <>
+        <p className="github-total">Total {data.total.toLocaleString("en-US")} contributions in lifetime</p>
+        {data.latestDate && <p className="github-updated">Updated {new Date(data.latestDate).toLocaleDateString("en-US", { month:"short", day:"numeric" })}</p>}
+      </>
+    )}
   </div>;
 }
 

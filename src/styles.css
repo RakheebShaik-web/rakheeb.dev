@@ -501,3 +501,5 @@ html[data-theme="dark"] .gh-month{fill:#909090}
 .gh-tip em{font-style:normal;color:#77716a}
 .gh-tip-below{transform:translate(-50%,15px)}
 @media(hover:none){.gh-tip{display:none}}
+
+.github-updated{margin:8px 0 0;font:400 9px var(--mono);letter-spacing:.06em;color:var(--dim)}
