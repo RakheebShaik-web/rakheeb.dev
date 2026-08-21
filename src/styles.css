@@ -480,7 +480,7 @@ html[data-theme="dark"] .hero-art:after{
 .github-activity-head a{color:inherit;text-decoration:none;transition:color .22s ease}
 .github-activity-head a:hover{color:#ff7441}
 .github-plot{display:block;text-decoration:none;color:inherit;overflow-x:auto;padding-bottom:4px}
-.github-plot svg{display:block;width:100%;min-width:640px;height:auto}
+.github-plot svg{display:block;width:100%;min-width:0;height:auto}
 .github-plot:hover .gh-cell:not(.l0){filter:brightness(1.12)}
 .gh-month{font:400 10px var(--mono);letter-spacing:.04em;fill:#8f8d89}
 .gh-cell{stroke:rgba(28,25,21,.07);stroke-width:.5;animation:ghIn .45s ease backwards}
