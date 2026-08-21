@@ -32,129 +32,9 @@ const tools = [
 
 const navItems = [
   ["00", "Overview", "top"], ["01", "Profile", "about"],
-  ["02", "Projects", "work"], ["03", "Activity", "contributions"],
-  ["04", "Tools", "stack"], ["05", "Operating system", "approach"], ["06", "Contact", "contact"],
+  ["02", "Projects", "work"], ["03", "Tools", "stack"],
+  ["04", "Operating system", "approach"], ["05", "Contact", "contact"],
 ];
-
-function GitHubContributions() {
-  const [data, setData] = useState(null);
-  const [tooltip, setTooltip] = useState(null);
-  const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    fetch("/contributions.json").then(r => r.json()).then(setData).catch(() => {});
-  }, []);
-
-  if (!data) return null;
-
-  const contribs = data.contributions || [];
-  const total = Object.values(data.total || {}).reduce((a, b) => a + b, 0);
-
-  const today = new Date();
-  today.setHours(0,0,0,0);
-  const todayStr = today.toISOString().slice(0,10);
-
-  const dayOfWeek = today.getDay();
-  const weeks = [];
-  let currentWeek = [];
-
-  const startIdx = Math.max(0, contribs.length - 365);
-  const yearContribs = contribs.slice(startIdx);
-
-  const firstDate = new Date(yearContribs[0]?.date);
-  const firstDow = firstDate.getDay();
-  for (let i = 0; i < firstDow; i++) currentWeek.push(null);
-
-  yearContribs.forEach((c) => {
-    const d = new Date(c.date);
-    if (d.getDay() === 0 && currentWeek.length > 0) {
-      weeks.push(currentWeek);
-      currentWeek = [];
-    }
-    currentWeek.push(c);
-  });
-  if (currentWeek.length > 0) weeks.push(currentWeek);
-
-  const months = [];
-  let lastMonth = -1;
-  weeks.forEach((week, wi) => {
-    const firstDay = week.find(d => d);
-    if (firstDay) {
-      const m = new Date(firstDay.date).getMonth();
-      if (m !== lastMonth) {
-        months.push({ name: new Date(firstDay.date).toLocaleString("en", { month: "short" }), weekIndex: wi });
-        lastMonth = m;
-      }
-    }
-  });
-
-  const dayLabels = ["", "Mon", "", "Wed", "", "Fri", ""];
-
-  const handleMouse = (e, c) => {
-    if (!c) return;
-    setTooltip(c);
-    setTooltipPos({ x: e.clientX + 12, y: e.clientY - 40 });
-  };
-
-  return (
-    <section className="contributions section" id="contributions">
-      <SectionLabel index="03">GITHUB ACTIVITY</SectionLabel>
-      <Reveal className="contrib-heading">
-        <h2>Consistent<br/><em>shipping.</em></h2>
-        <p>Real contribution data from GitHub. Every square is a day of building in public.</p>
-      </Reveal>
-      <div className="contrib-container">
-        <div className="heatmap-wrapper">
-          <div className="heatmap-months">
-            {months.map((m, i) => (
-              <span key={i} style={{ width: (weeks.length - m.weekIndex) > 0 ? `${Math.max(1, 1)}fr` : undefined }}>{m.name}</span>
-            ))}
-          </div>
-          <div className="heatmap-grid">
-            <div className="heatmap-day-labels">
-              {dayLabels.map((d, i) => <span key={i}>{d}</span>)}
-            </div>
-            <div className="heatmap-cells" style={{ display: 'grid', gridTemplateColumns: `repeat(${weeks.length}, 13px)`, gridTemplateRows: 'repeat(7, 13px)', gap: '3px' }}>
-              {weeks.map((week, wi) => (
-                week.map((day, di) => (
-                  day ? (
-                    <div
-                      key={`${wi}-${di}`}
-                      className={`heatmap-cell level-${day.level}`}
-                      style={{ gridColumn: wi + 1, gridRow: di + 1 }}
-                      onMouseEnter={(e) => handleMouse(e, day)}
-                      onMouseMove={(e) => setTooltipPos({ x: e.clientX + 12, y: e.clientY - 40 })}
-                      onMouseLeave={() => setTooltip(null)}
-                    />
-                  ) : (
-                    <div key={`${wi}-${di}`} style={{ gridColumn: wi + 1, gridRow: di + 1 }} />
-                  )
-                ))
-              ))}
-            </div>
-          </div>
-          <div className="heatmap-footer">
-            <span className="contrib-total"><strong>{total.toLocaleString()}</strong> contributions in the last year</span>
-            <div className="heatmap-legend">
-              <span>Less</span>
-              {[0,1,2,3,4].map(l => <div key={l} className="legend-cell" style={{ background: l === 0 ? '#1A1B1C' : `rgba(255,255,255,${[0,.15,.3,.5,.75][l]})` }} />)}
-              <span>More</span>
-            </div>
-          </div>
-        </div>
-        <a href="https://github.com/RakheebShaik-web" target="_blank" rel="noreferrer" className="contrib-github-link">
-          <svg viewBox="0 0 24 24"><path d="M8.2 19.2c-4.3 1.3-4.3-2.2-6-2.7m12 5v-3.3c.1-1-.3-1.9-.9-2.5 3-.3 6.2-1.5 6.2-6.7a5.2 5.2 0 0 0-1.4-3.6c.2-.9.1-2.3-.2-3.3 0 0-1.1-.4-3.7 1.4a12.7 12.7 0 0 0-6.7 0C4.9 1.7 3.8 2.1 3.8 2.1c-.3 1-.4 2.4-.2 3.3A5.2 5.2 0 0 0 2.2 9c0 5.2 3.2 6.4 6.2 6.7-.5.5-.8 1.2-.9 2v3.8"/></svg>
-          VIEW GITHUB PROFILE
-        </a>
-      </div>
-      {tooltip && (
-        <div className="heatmap-tooltip visible" style={{ left: tooltipPos.x, top: tooltipPos.y }}>
-          <strong>{tooltip.count}</strong> contributions on {new Date(tooltip.date).toLocaleDateString("en", { month: "short", day: "numeric", year: "numeric" })}
-        </div>
-      )}
-    </section>
-  );
-}
 
 function Reveal({ children, className = "" }) {
   const ref = useRef(null);
@@ -217,7 +97,7 @@ function App() {
   const [theme, setTheme] = useState(() => localStorage.getItem("rakheeb-theme") || "dark");
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
-    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", theme === "dark" ? "#0E0F10" : "#ffffff");
+    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", theme === "dark" ? "#070706" : "#f1efe9");
     localStorage.setItem("rakheeb-theme", theme);
   }, [theme]);
   useEffect(() => {
@@ -239,13 +119,12 @@ function App() {
     <header className="nav"><a className="wordmark" href="#top" aria-label="Rakheeb Shaikh, home">RAKHEEB SHAIKH</a><nav aria-label="Main navigation">{navItems.slice(1,5).map(([n, name, id]) => <a key={name} className={active === id ? "active" : ""} href={`#${id}`}><small>{n}</small>{name}</a>)}</nav><div className="nav-utilities"><button className="menu-trigger" onClick={() => setPalette(true)} aria-label="Open menu"><span className="menu-lines"><i/><i/></span><span>MENU</span></button><button onClick={() => setTheme(theme === "light" ? "dark" : "light")} aria-label={`Switch to ${theme === "light" ? "dark" : "light"} theme`}><span className="theme-mark">◐</span></button></div></header>
     <aside className="progress-nav" aria-label="Section progress">{navItems.map(([n, name, id]) => <button key={id} className={active === id ? "active" : ""} onClick={() => goTo(id)} aria-label={`Go to ${name}`}><span>{n}</span></button>)}</aside>
     {palette && <div className="command-backdrop" onMouseDown={() => setPalette(false)}><div className="command-palette" role="dialog" aria-modal="true" aria-label="Quick navigation" onMouseDown={event => event.stopPropagation()}><div className="command-head"><span>GO TO</span><div><kbd>ESC</kbd><button className="command-close" onClick={() => setPalette(false)} aria-label="Close menu">×</button></div></div>{navItems.map(([n, name, id]) => <button key={id} onClick={() => goTo(id)}><small>{n}</small><span>{name}</span><i>↵</i></button>)}</div></div>}
-    <section className="hero" id="top"><div className="hero-meta"><span>HYDERABAD / INDIA</span></div><div className="hero-copy"><p className="eyebrow">ALGORITHMIC TRADER · QUANT DEVELOPER</p><h1><span className="hero-name">RAKHEEB SHAIKH</span> <a className="hero-handle" href="https://github.com/RakheebShaik-web" target="_blank" rel="noreferrer"><span>/ </span><span>@</span><span>RakheebShaik-web</span></a></h1><p className="intro">Quantitative trading systems built from research, tested through data, and deployed with disciplined execution.</p></div><figure className="hero-art"><img src="/hero-probability.png" alt="Probability paths converging around a realized market price series"/><figcaption>PROBABILITY / PATH / EXECUTION</figcaption></figure><p className="hero-note">A SYSTEM IS A HYPOTHESIS<br/>WITH CONSEQUENCES.</p></section>
+    <section className="hero" id="top"><div className="hero-meta"><span>HYDERABAD / INDIA</span></div><div className="hero-copy"><p className="eyebrow">ALGORITHMIC TRADER · QUANT DEVELOPER</p><h1>Research<br/><em>into execution.</em></h1><p className="intro">Quantitative trading systems built from research, tested through data, and deployed with disciplined execution.</p></div><figure className="hero-art"><img src="/hero-probability.png" alt="Probability paths converging around a realized market price series"/><figcaption>PROBABILITY / PATH / EXECUTION</figcaption></figure><p className="hero-note">A SYSTEM IS A HYPOTHESIS<br/>WITH CONSEQUENCES.</p></section>
     <section className="about section" id="about"><SectionLabel index="01">PROFILE / MANDATE</SectionLabel><Reveal className="about-copy"><p>I’m Rakheeb Shaikh, an algorithmic trader at a hedge fund, working across quantitative strategies in U.S. equities and Indian options.</p><p>Working across U.S. equities and Indian derivatives gives me exposure to two distinct market structures, trading sessions, and execution environments. That contrast shapes how I research and engineer systems.</p><p>I research market ideas and develop automated trading systems that handle screening, risk, execution, and monitoring. My background in Computer Science and AI gives me the technical foundation to turn trading ideas into reliable systems.</p><p className="offdesk">I watch crypto charts, invest in mutual funds, and spend an unreasonable amount of time with my cat.</p></Reveal><Reveal className="experience-strip"><div><small>ROLE</small><strong>Algorithmic trader</strong><span>Hedge fund</span></div><div><small>EDUCATION</small><strong>BTech Computer Science</strong><span>AI and ML specialization</span></div><div><small>FOCUS</small><strong>Systematic trading</strong><span>U.S. equities and Indian options</span></div><div><small>BASE</small><strong>Hyderabad</strong><span>India</span></div></Reveal></section>
     <section className="work section" id="work"><SectionLabel index="02">SELECTED SYSTEMS</SectionLabel><Reveal className="work-heading"><h2>Built to survive<br/><em>contact with markets.</em></h2><p>Research is only useful when it holds up under execution, data failure, and real capital.</p></Reveal><div className="studies">{studies.map((s, i) => <article className={open === i ? "study active" : "study"} key={s.title}><button onClick={() => setOpen(open === i ? -1 : i)} aria-expanded={open === i} aria-controls={`project-detail-${i}`}><span className="study-index">0{i + 1}</span><span><small>{s.tag} · {s.status}</small><strong>{s.title}</strong></span><i>{open === i ? "−" : "+"}</i></button><div className="study-detail" id={`project-detail-${i}`} role="region" aria-label={`${s.title} details`}><div><small>CONSTRAINT</small><p>{s.problem}</p></div><div><small>RESPONSE</small><p>{s.approach}</p></div><div><small>STACK</small><p>{s.architecture}</p></div><div><small>STATE</small><p>{s.result}</p></div><div className="study-architecture"><small>SYSTEM ARCHITECTURE · LAST UPDATED {s.updated}</small><div>{s.flow.map((step, stepIndex) => <React.Fragment key={step}><span>{step}</span>{stepIndex < s.flow.length - 1 && <i>→</i>}</React.Fragment>)}</div><a href={s.link} target="_blank" rel="noreferrer" aria-label={`${s.linkLabel}: ${s.title}`}>{s.linkLabel} <b>↗</b></a></div></div></article>)}</div></section>
-    <GitHubContributions/>
-    <section className="stack section" id="stack"><SectionLabel index="04">TOOLS / INFRASTRUCTURE</SectionLabel><div className="tool-grid">{tools.map(([name, icon, mark], i) => <div className="tool" key={name}><span className="tool-index">{String(i+1).padStart(2,"0")}</span><span className="tool-logo">{icon ? <img src={icon} alt=""/> : mark}</span><strong>{name}</strong><span className="tool-arrow">↗</span></div>)}</div></section>
-    <section className="approach section" id="approach"><SectionLabel index="05">OPERATING SYSTEM</SectionLabel><Reveal className="operating-simple"><div><h2>From hypothesis<br/><em>to live capital.</em></h2><p>A repeatable system for research, risk, execution, and continuous refinement.</p></div></Reveal><div className="practice-grid">{practices.map(([n, title, body]) => <Reveal className="practice" key={n}><div className="practice-copy"><span>{`{${n}}`}</span><h3>{title}</h3><p>{body}</p></div></Reveal>)}</div></section>
-    <section className="contact section" id="contact"><SectionLabel index="06">OPEN CHANNEL</SectionLabel><Reveal className="contact-heading"><h2>Let’s talk<br/><em>markets.</em></h2></Reveal><div className="contact-actions"><a href="mailto:shaikrakheeb280@gmail.com"><span className="social-name"><SocialIcon name="email"/>Email</span><span>↗</span></a><a href="https://www.linkedin.com/in/rakheeb-shaik-aba0762b5/" target="_blank" rel="noreferrer"><span className="social-name"><SocialIcon name="linkedin"/>LinkedIn</span><span>↗</span></a><a href="https://github.com/RakheebShaik-web" target="_blank" rel="noreferrer"><span className="social-name"><SocialIcon name="github"/>GitHub</span><span>↗</span></a></div><p className="legal-note">Projects are presented for engineering and research purposes. Nothing on this site constitutes financial advice or a solicitation to trade.</p><footer><span>© 2026 RAKHEEB SHAIKH</span><span>BUILT FOR MARKETS</span><a href="#top">BACK TO TOP ↑</a></footer></section>
+    <section className="stack section" id="stack"><SectionLabel index="03">TOOLS / INFRASTRUCTURE</SectionLabel><div className="tool-grid">{tools.map(([name, icon, mark], i) => <div className="tool" key={name}><span className="tool-index">{String(i+1).padStart(2,"0")}</span><span className="tool-logo">{icon ? <img src={icon} alt=""/> : mark}</span><strong>{name}</strong><span className="tool-arrow">↗</span></div>)}</div></section>
+    <section className="approach section" id="approach"><SectionLabel index="04">OPERATING SYSTEM</SectionLabel><Reveal className="operating-simple"><div><h2>From hypothesis<br/><em>to live capital.</em></h2><p>A repeatable system for research, risk, execution, and continuous refinement.</p></div></Reveal><div className="practice-grid">{practices.map(([n, title, body]) => <Reveal className="practice" key={n}><div className="practice-copy"><span>{`{${n}}`}</span><h3>{title}</h3><p>{body}</p></div></Reveal>)}</div></section>
+    <section className="contact section" id="contact"><SectionLabel index="05">OPEN CHANNEL</SectionLabel><Reveal className="contact-heading"><h2>Let’s talk<br/><em>markets.</em></h2></Reveal><div className="contact-actions"><a href="mailto:shaikrakheeb280@gmail.com"><span className="social-name"><SocialIcon name="email"/>Email</span><span>↗</span></a><a href="https://www.linkedin.com/in/rakheeb-shaik-aba0762b5/" target="_blank" rel="noreferrer"><span className="social-name"><SocialIcon name="linkedin"/>LinkedIn</span><span>↗</span></a><a href="https://github.com/RakheebShaik-web" target="_blank" rel="noreferrer"><span className="social-name"><SocialIcon name="github"/>GitHub</span><span>↗</span></a></div><p className="legal-note">Projects are presented for engineering and research purposes. Nothing on this site constitutes financial advice or a solicitation to trade.</p><footer><span>© 2026 RAKHEEB SHAIKH</span><span>BUILT FOR MARKETS</span><a href="#top">BACK TO TOP ↑</a></footer></section>
   </main>;
 }
 createRoot(document.getElementById("root")).render(<><App/><Analytics/></>);
