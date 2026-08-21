@@ -482,11 +482,13 @@ html[data-theme="dark"] .hero-art:after{
 .github-plot{display:block;text-decoration:none;color:inherit;overflow-x:auto;padding-bottom:4px}
 .github-plot svg{display:block;width:100%;min-width:640px;height:auto}
 .github-plot:hover .gh-cell:not(.l0){filter:brightness(1.12)}
-.gh-month{font:400 9.5px var(--mono);letter-spacing:.08em;text-transform:uppercase;fill:var(--dim);opacity:.85}
-.gh-cell{stroke:var(--line);stroke-width:.5;animation:ghIn .45s ease backwards}
+.gh-month{font:400 10px var(--mono);letter-spacing:.04em;fill:#8f8d89}
+.gh-cell{stroke:rgba(28,25,21,.07);stroke-width:.5;animation:ghIn .45s ease backwards}
 @keyframes ghIn{from{opacity:0}}
-.gh-cell.l0{fill:#e6e2da}.gh-cell.l1{fill:#ccc7be}.gh-cell.l2{fill:#a29d94}.gh-cell.l3{fill:#6f6a62}.gh-cell.l4{fill:#26231f}
-html[data-theme="dark"] .gh-cell.l0{fill:#1a1918}html[data-theme="dark"] .gh-cell.l1{fill:#3c3a36}html[data-theme="dark"] .gh-cell.l2{fill:#6b675f}html[data-theme="dark"] .gh-cell.l3{fill:#a49f96}html[data-theme="dark"] .gh-cell.l4{fill:#efece6}
+.gh-cell.l0{fill:#dfddd7}.gh-cell.l1{fill:#c7c5bf}.gh-cell.l2{fill:#9c9a94}.gh-cell.l3{fill:#6b6963}.gh-cell.l4{fill:#26241f}
+html[data-theme="dark"] .gh-cell.l0{fill:#383838}html[data-theme="dark"] .gh-cell.l1{fill:#656565}html[data-theme="dark"] .gh-cell.l2{fill:#919191}html[data-theme="dark"] .gh-cell.l3{fill:#bebebe}html[data-theme="dark"] .gh-cell.l4{fill:#ebebeb}
+html[data-theme="dark"] .gh-cell{stroke:rgba(255,255,255,.05)}
+html[data-theme="dark"] .gh-month{fill:#909090}
 .github-total{margin:14px 0 0;font:400 11px var(--mono);letter-spacing:.06em;color:var(--dim)}
 .gh-skeleton{min-height:108px;display:grid;place-items:center;border:1px dashed var(--line);font:400 9px var(--mono);letter-spacing:.18em;color:var(--dim);animation:ghPulse 1.6s ease-in-out infinite}
 @keyframes ghPulse{50%{opacity:.5}}
