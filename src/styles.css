@@ -503,3 +503,5 @@ html[data-theme="dark"] .gh-month{fill:#909090}
 @media(hover:none){.gh-tip{display:none}}
 
 .github-updated{margin:8px 0 0;font:400 9px var(--mono);letter-spacing:.06em;color:var(--dim)}
+@keyframes heroPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.02)}}
+.hero-art img{animation:heroPulse 4s ease-in-out infinite}
