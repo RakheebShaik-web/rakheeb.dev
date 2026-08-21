@@ -473,3 +473,21 @@ html[data-theme="dark"] .hero-art:after{
     contain:paint;
   }
 }
+
+/* GitHub contribution graph */
+.github-activity{width:100%;max-width:1480px;margin:72px auto 0;border-top:1px solid var(--line);padding-top:30px}
+.github-activity-head{display:flex;justify-content:space-between;align-items:center;gap:16px;font:500 10px var(--mono);letter-spacing:.16em;color:var(--blue);margin-bottom:24px}
+.github-activity-head a{color:inherit;text-decoration:none;transition:color .22s ease}
+.github-activity-head a:hover{color:#ff7441}
+.github-plot{display:block;text-decoration:none;color:inherit;overflow-x:auto;padding-bottom:4px}
+.github-plot svg{display:block;width:100%;min-width:640px;height:auto}
+.github-plot:hover .gh-cell:not(.l0){filter:brightness(1.12)}
+.gh-month{font:400 9.5px var(--mono);letter-spacing:.08em;text-transform:uppercase;fill:var(--dim);opacity:.85}
+.gh-cell{stroke:var(--line);stroke-width:.5;animation:ghIn .45s ease backwards}
+@keyframes ghIn{from{opacity:0}}
+.gh-cell.l0{fill:#e6e2da}.gh-cell.l1{fill:#ccc7be}.gh-cell.l2{fill:#a29d94}.gh-cell.l3{fill:#6f6a62}.gh-cell.l4{fill:#26231f}
+html[data-theme="dark"] .gh-cell.l0{fill:#1a1918}html[data-theme="dark"] .gh-cell.l1{fill:#3c3a36}html[data-theme="dark"] .gh-cell.l2{fill:#6b675f}html[data-theme="dark"] .gh-cell.l3{fill:#a49f96}html[data-theme="dark"] .gh-cell.l4{fill:#efece6}
+.github-total{margin:14px 0 0;font:400 11px var(--mono);letter-spacing:.06em;color:var(--dim)}
+.gh-skeleton{min-height:108px;display:grid;place-items:center;border:1px dashed var(--line);font:400 9px var(--mono);letter-spacing:.18em;color:var(--dim);animation:ghPulse 1.6s ease-in-out infinite}
+@keyframes ghPulse{50%{opacity:.5}}
+@media(max-width:760px){.github-activity{margin-top:52px}.github-activity-head{letter-spacing:.12em;font-size:9px}.github-activity-head span:first-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}

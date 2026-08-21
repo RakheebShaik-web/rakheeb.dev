@@ -83,6 +83,49 @@ function MeshTerrain() {
   </svg></div>;
 }
 
+const GH_USER = "RakheebShaik-web";
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+function GithubActivity() {
+  const [data, setData] = useState(null);
+  const [failed, setFailed] = useState(false);
+  useEffect(() => {
+    fetch(`https://github-contributions-api.jogruber.de/v4/${GH_USER}?y=all`)
+      .then(r => { if (!r.ok) throw new Error("bad status"); return r.json(); })
+      .then(j => {
+        const today = new Date().toISOString().slice(0, 10);
+        const days = j.contributions.filter(d => d.date <= today).sort((a, b) => a.date.localeCompare(b.date)).slice(-371);
+        const pad = new Date(days[0].date + "T00:00:00").getDay();
+        const weeks = [];
+        let week = Array(pad).fill(null);
+        days.forEach(d => { week.push(d); if (week.length === 7) { weeks.push(week); week = []; } });
+        if (week.some(Boolean)) weeks.push(week);
+        const labels = [];
+        let lastM = -1;
+        weeks.forEach((w, i) => {
+          const d = w.find(Boolean);
+          if (!d || i > weeks.length - 2) return;
+          const m = new Date(d.date + "T00:00:00").getMonth();
+          if (m !== lastM) { labels.push([i, m]); lastM = m; }
+        });
+        setData({ weeks, labels, total: Object.values(j.total).reduce((s, n) => s + n, 0) });
+      })
+      .catch(() => setFailed(true));
+  }, []);
+  if (failed) return null;
+  const PITCH = 12.6, TOP = 18;
+  return <div className="github-activity">
+    <div className="github-activity-head"><span>GITHUB ACTIVITY / COMMITS</span><a href={`https://github.com/${GH_USER}`} target="_blank" rel="noreferrer">@{GH_USER.toUpperCase()} ↗</a></div>
+    {data ? <a className="github-plot" href={`https://github.com/${GH_USER}`} target="_blank" rel="noreferrer" aria-label={`${data.total} contributions on GitHub`}>
+      <svg viewBox={`0 0 ${Math.ceil(data.weeks.length * PITCH)} ${TOP + 7 * PITCH}`} role="img">
+        {data.labels.map(([i, m]) => <text key={m + "-" + i} x={i * PITCH} y="9" className="gh-month">{MONTHS[m]}</text>)}
+        {data.weeks.map((w, c) => w.map((d, r) => d ? <rect key={d.date} className={`gh-cell l${d.level}`} x={c * PITCH} y={TOP + r * PITCH} width="10.1" height="10.1" rx="2.5" style={{ animationDelay: `${c * 14}ms` }}><title>{`${d.count} contribution${d.count === 1 ? "" : "s"} · ${new Date(d.date + "T00:00:00").toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}`}</title></rect> : null))}
+      </svg>
+    </a> : <div className="gh-skeleton" aria-hidden="true">LOADING CONTRIBUTION DATA…</div>}
+    {data && <p className="github-total">Total {data.total.toLocaleString("en-US")} contributions in lifetime</p>}
+  </div>;
+}
+
 function GenerativeVisual({ type }) {
   if (type === 0) return <div className="generative g-poly" aria-hidden="true"><svg viewBox="0 0 320 260"><polygon points="42,55 260,42 292,205 102,224 42,55"/>{Array.from({length:11},(_,i)=><path key={i} d={`M42 55 L${102+i*16} ${224-i*2} L260 42`}/>)}</svg></div>;
   if (type === 1) return <div className="generative g-tunnel" aria-hidden="true"><svg viewBox="0 0 320 260">{Array.from({length:14},(_,i)=><rect key={i} x={25+i*9} y={20+i*7.4} width={270-i*18} height={220-i*14.8}/>)}</svg></div>;
@@ -122,7 +165,7 @@ function App() {
     <section className="hero" id="top"><div className="hero-meta"><span>HYDERABAD / INDIA</span></div><div className="hero-copy"><p className="eyebrow">ALGORITHMIC TRADER · QUANT DEVELOPER</p><h1>Research<br/><em>into execution.</em></h1><p className="intro">Quantitative trading systems built from research, tested through data, and deployed with disciplined execution.</p></div><figure className="hero-art"><img src="/hero-probability.png" alt="Probability paths converging around a realized market price series"/><figcaption>PROBABILITY / PATH / EXECUTION</figcaption></figure><p className="hero-note">A SYSTEM IS A HYPOTHESIS<br/>WITH CONSEQUENCES.</p></section>
     <section className="about section" id="about"><SectionLabel index="01">PROFILE / MANDATE</SectionLabel><Reveal className="about-copy"><p>I’m Rakheeb Shaikh, an algorithmic trader at a hedge fund, working across quantitative strategies in U.S. equities and Indian options.</p><p>Working across U.S. equities and Indian derivatives gives me exposure to two distinct market structures, trading sessions, and execution environments. That contrast shapes how I research and engineer systems.</p><p>I research market ideas and develop automated trading systems that handle screening, risk, execution, and monitoring. My background in Computer Science and AI gives me the technical foundation to turn trading ideas into reliable systems.</p><p className="offdesk">I watch crypto charts, invest in mutual funds, and spend an unreasonable amount of time with my cat.</p></Reveal><Reveal className="experience-strip"><div><small>ROLE</small><strong>Algorithmic trader</strong><span>Hedge fund</span></div><div><small>EDUCATION</small><strong>BTech Computer Science</strong><span>AI and ML specialization</span></div><div><small>FOCUS</small><strong>Systematic trading</strong><span>U.S. equities and Indian options</span></div><div><small>BASE</small><strong>Hyderabad</strong><span>India</span></div></Reveal></section>
     <section className="work section" id="work"><SectionLabel index="02">SELECTED SYSTEMS</SectionLabel><Reveal className="work-heading"><h2>Built to survive<br/><em>contact with markets.</em></h2><p>Research is only useful when it holds up under execution, data failure, and real capital.</p></Reveal><div className="studies">{studies.map((s, i) => <article className={open === i ? "study active" : "study"} key={s.title}><button onClick={() => setOpen(open === i ? -1 : i)} aria-expanded={open === i} aria-controls={`project-detail-${i}`}><span className="study-index">0{i + 1}</span><span><small>{s.tag} · {s.status}</small><strong>{s.title}</strong></span><i>{open === i ? "−" : "+"}</i></button><div className="study-detail" id={`project-detail-${i}`} role="region" aria-label={`${s.title} details`}><div><small>CONSTRAINT</small><p>{s.problem}</p></div><div><small>RESPONSE</small><p>{s.approach}</p></div><div><small>STACK</small><p>{s.architecture}</p></div><div><small>STATE</small><p>{s.result}</p></div><div className="study-architecture"><small>SYSTEM ARCHITECTURE · LAST UPDATED {s.updated}</small><div>{s.flow.map((step, stepIndex) => <React.Fragment key={step}><span>{step}</span>{stepIndex < s.flow.length - 1 && <i>→</i>}</React.Fragment>)}</div><a href={s.link} target="_blank" rel="noreferrer" aria-label={`${s.linkLabel}: ${s.title}`}>{s.linkLabel} <b>↗</b></a></div></div></article>)}</div></section>
-    <section className="stack section" id="stack"><SectionLabel index="03">TOOLS / INFRASTRUCTURE</SectionLabel><div className="tool-grid">{tools.map(([name, icon, mark], i) => <div className="tool" key={name}><span className="tool-index">{String(i+1).padStart(2,"0")}</span><span className="tool-logo">{icon ? <img src={icon} alt=""/> : mark}</span><strong>{name}</strong><span className="tool-arrow">↗</span></div>)}</div></section>
+    <section className="stack section" id="stack"><SectionLabel index="03">TOOLS / INFRASTRUCTURE</SectionLabel><div className="tool-grid">{tools.map(([name, icon, mark], i) => <div className="tool" key={name}><span className="tool-index">{String(i+1).padStart(2,"0")}</span><span className="tool-logo">{icon ? <img src={icon} alt=""/> : mark}</span><strong>{name}</strong><span className="tool-arrow">↗</span></div>)}</div><GithubActivity/></section>
     <section className="approach section" id="approach"><SectionLabel index="04">OPERATING SYSTEM</SectionLabel><Reveal className="operating-simple"><div><h2>From hypothesis<br/><em>to live capital.</em></h2><p>A repeatable system for research, risk, execution, and continuous refinement.</p></div></Reveal><div className="practice-grid">{practices.map(([n, title, body]) => <Reveal className="practice" key={n}><div className="practice-copy"><span>{`{${n}}`}</span><h3>{title}</h3><p>{body}</p></div></Reveal>)}</div></section>
     <section className="contact section" id="contact"><SectionLabel index="05">OPEN CHANNEL</SectionLabel><Reveal className="contact-heading"><h2>Let’s talk<br/><em>markets.</em></h2></Reveal><div className="contact-actions"><a href="mailto:shaikrakheeb280@gmail.com"><span className="social-name"><SocialIcon name="email"/>Email</span><span>↗</span></a><a href="https://www.linkedin.com/in/rakheeb-shaik-aba0762b5/" target="_blank" rel="noreferrer"><span className="social-name"><SocialIcon name="linkedin"/>LinkedIn</span><span>↗</span></a><a href="https://github.com/RakheebShaik-web" target="_blank" rel="noreferrer"><span className="social-name"><SocialIcon name="github"/>GitHub</span><span>↗</span></a></div><p className="legal-note">Projects are presented for engineering and research purposes. Nothing on this site constitutes financial advice or a solicitation to trade.</p><footer><span>© 2026 RAKHEEB SHAIKH</span><span>BUILT FOR MARKETS</span><a href="#top">BACK TO TOP ↑</a></footer></section>
   </main>;
