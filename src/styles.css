@@ -505,3 +505,10 @@ html[data-theme="dark"] .gh-month{fill:#909090}
 .github-updated{margin:8px 0 0;font:400 9px var(--mono);letter-spacing:.06em;color:var(--dim)}
 @keyframes heroPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.02)}}
 .hero-art img{animation:heroPulse 4s ease-in-out infinite}
+/* custom scrollbar */
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:var(--black)}
+::-webkit-scrollbar-thumb{background:var(--dim);border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:var(--blue)}
+.tool:hover{transform:scale(1.02)translateY(-3px);box-shadow:0 12px 30px rgba(240,75,25,.15)}
+html[data-theme= dark] .tool:hover{transform:scale(1.02)translateY(-3px);box-shadow:0 12px 30px rgba(7,7,6,.2)}
