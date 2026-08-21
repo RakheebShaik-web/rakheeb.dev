@@ -199,6 +199,19 @@ function App() {
       loop: true,
     });
   }, [])
+  useEffect(() => {
+    const bar = document.querySelector('.progress-bar')
+    const barInner = bar?.querySelector('div')
+    const updateProgress = () => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop
+      const docHeight = document.body.scrollHeight - window.innerHeight
+      const pct = Math.round(scrollTop / docHeight * 100)
+      if (barInner) barInner.style.width = pct + '%'
+    }
+    updateProgress()
+    window.addEventListener('scroll', updateProgress)
+    return () => window.removeEventListener('scroll', updateProgress)
+  }, [])
   const goTo = (id) => { document.getElementById(id)?.scrollIntoView({ behavior: "smooth" }); setPalette(false); };
   return <main>
     <header className="nav"><a className="wordmark" href="#top" aria-label="Rakheeb Shaikh, home">RAKHEEB SHAIKH</a><nav aria-label="Main navigation">{navItems.slice(1,5).map(([n, name, id]) => <a key={name} className={active === id ? "active" : ""} href={`#${id}`}><small>{n}</small>{name}</a>)}</nav><div className="nav-utilities"><button className="menu-trigger" onClick={() => setPalette(true)} aria-label="Open menu"><span className="menu-lines"><i/><i/></span><span>MENU</span></button><button onClick={() => setTheme(theme === "light" ? "dark" : "light")} aria-label={`Switch to ${theme === "light" ? "dark" : "light"} theme`}><span className="theme-mark">◐</span></button></div></header>

@@ -505,6 +505,10 @@ html[data-theme="dark"] .gh-month{fill:#909090}
 .github-updated{margin:8px 0 0;font:400 9px var(--mono);letter-spacing:.06em;color:var(--dim)}
 @keyframes heroPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.02)}}
 .hero-art img{animation:heroPulse 4s ease-in-out infinite}
+/* scroll progress bar */
+.progress-bar{position:fixed;top:0;left:0;height:4px;width:0%;background:var(--blue);z-index:99;transition:width .1s linear}
+.progress-bar div{width:100%}
+`@
 /* custom scrollbar */
 ::-webkit-scrollbar{width:8px}
 ::-webkit-scrollbar-track{background:var(--black)}
