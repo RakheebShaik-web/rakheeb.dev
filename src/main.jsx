@@ -89,6 +89,8 @@ const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "
 function GithubActivity() {
   const [data, setData] = useState(null);
   const [failed, setFailed] = useState(false);
+  const [tip, setTip] = useState(null);
+  const plotRef = useRef(null);
   useEffect(() => {
     fetch(`https://github-contributions-api.jogruber.de/v4/${GH_USER}?y=all`)
       .then(r => { if (!r.ok) throw new Error("bad status"); return r.json(); })
@@ -114,13 +116,27 @@ function GithubActivity() {
   }, []);
   if (failed) return null;
   const PITCH = 12.6, TOP = 18;
+  const showTip = e => {
+    const t = e.target;
+    if (!t.dataset || !t.dataset.count || !plotRef.current) { setTip(null); return; }
+    const box = plotRef.current.getBoundingClientRect();
+    const y = e.clientY - box.top;
+    setTip({
+      x: Math.min(Math.max(e.clientX - box.left, 78), Math.max(box.width - 78, 78)),
+      y,
+      below: y < 48,
+      count: +t.dataset.count,
+      date: t.dataset.label
+    });
+  };
   return <div className="github-activity">
     <div className="github-activity-head"><span>GITHUB ACTIVITY / COMMITS</span><a href={`https://github.com/${GH_USER}`} target="_blank" rel="noreferrer">@{GH_USER.toUpperCase()} ↗</a></div>
-    {data ? <a className="github-plot" href={`https://github.com/${GH_USER}`} target="_blank" rel="noreferrer" aria-label={`${data.total} contributions on GitHub`}>
+    {data ? <a className="github-plot" ref={plotRef} href={`https://github.com/${GH_USER}`} target="_blank" rel="noreferrer" aria-label={`${data.total} contributions on GitHub`} onMouseMove={showTip} onMouseLeave={() => setTip(null)}>
       <svg viewBox={`0 0 ${Math.ceil(data.weeks.length * PITCH)} ${TOP + 7 * PITCH}`} role="img">
         {data.labels.map(([i, m]) => <text key={m + "-" + i} x={i * PITCH} y="9" className="gh-month">{MONTHS[m]}</text>)}
-        {data.weeks.map((w, c) => w.map((d, r) => d ? <rect key={d.date} className={`gh-cell l${d.level}`} x={c * PITCH} y={TOP + r * PITCH} width="10.1" height="10.1" rx="2.5" style={{ animationDelay: `${c * 14}ms` }}><title>{`${d.count} contribution${d.count === 1 ? "" : "s"} · ${new Date(d.date + "T00:00:00").toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}`}</title></rect> : null))}
+        {data.weeks.map((w, c) => w.map((d, r) => d ? <rect key={d.date} className={`gh-cell l${d.level}`} data-count={d.count} data-label={new Date(d.date + "T00:00:00").toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })} x={c * PITCH} y={TOP + r * PITCH} width="10.1" height="10.1" rx="2.5" style={{ animationDelay: `${c * 14}ms` }}/> : null))}
       </svg>
+      {tip && <span className={"gh-tip" + (tip.below ? " gh-tip-below" : "")} style={{ left: tip.x, top: tip.y }}><strong>{tip.count} contribution{tip.count === 1 ? "" : "s"}</strong><em>{tip.date}</em></span>}
     </a> : <div className="gh-skeleton" aria-hidden="true">LOADING CONTRIBUTION DATA…</div>}
     {data && <p className="github-total">Total {data.total.toLocaleString("en-US")} contributions in lifetime</p>}
   </div>;
