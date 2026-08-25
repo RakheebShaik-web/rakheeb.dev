@@ -145,6 +145,179 @@ body{overflow-x:hidden}.section,.hero{scroll-margin-top:66px}.about-copy,.work-h
   }
 }
 
+/* 2026 interaction pass: sharper hierarchy and signal-driven hover states. */
+.about-copy p:first-child{
+  max-width:860px;
+  font-size:clamp(20px,1.42vw,23px);
+  line-height:1.58;
+}
+.about-copy p:not(:first-child):not(.offdesk){
+  max-width:760px;
+  font-size:clamp(14px,1vw,16px);
+  line-height:1.82;
+  color:color-mix(in srgb,var(--white) 76%,var(--dim));
+}
+html[data-theme="dark"] .about-copy p:not(:first-child):not(.offdesk){
+  color:#c2bdb5;
+}
+.work .work-heading h2{
+  font-size:clamp(52px,4.9vw,80px);
+}
+
+/* Navigation behaves like an instrument panel, with an active signal trace. */
+.nav nav a{
+  position:relative;
+  overflow:hidden;
+}
+.nav nav a:after{
+  content:"";
+  position:absolute;
+  left:18px;
+  right:18px;
+  bottom:0;
+  height:2px;
+  background:var(--blue);
+  transform:scaleX(0);
+  transform-origin:right;
+  transition:transform .34s cubic-bezier(.16,1,.3,1);
+}
+.nav nav a:hover:after,.nav nav a:focus-visible:after,.nav nav a.active:after{
+  transform:scaleX(1);
+  transform-origin:left;
+}
+.wordmark{
+  transition:color .25s ease,letter-spacing .4s cubic-bezier(.16,1,.3,1);
+}
+.wordmark:hover,.wordmark:focus-visible{
+  color:var(--blue);
+  letter-spacing:.54em;
+}
+
+/* Project rows reveal like a market-data scan instead of a generic accordion. */
+.study{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+}
+.study:before{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  inset:0;
+  background:linear-gradient(90deg,rgba(237,74,22,.12),rgba(237,74,22,.025) 45%,transparent 78%);
+  transform:translateX(-102%);
+  transition:transform .58s cubic-bezier(.16,1,.3,1);
+}
+.study:after{
+  content:"";
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  width:2px;
+  background:var(--blue);
+  transform:scaleY(0);
+  transform-origin:top;
+  transition:transform .38s cubic-bezier(.16,1,.3,1);
+}
+.study:hover:before,.study:focus-within:before,.study.active:before{transform:none}
+.study:hover:after,.study:focus-within:after,.study.active:after{transform:scaleY(1)}
+.study button strong{
+  display:inline-block;
+  transition:color .28s ease,transform .42s cubic-bezier(.16,1,.3,1);
+}
+.study:hover button strong,.study:focus-within button strong{
+  color:var(--blue);
+  transform:translateX(10px);
+}
+.study button i{
+  display:inline-block;
+  transition:color .25s ease,transform .38s cubic-bezier(.16,1,.3,1);
+}
+.study:hover button i,.study:focus-within button i{
+  color:var(--blue);
+  transform:rotate(90deg);
+}
+.study.active button i{transform:rotate(180deg)}
+
+/* Facts and process cells get a restrained cursor spotlight and corner trace. */
+.experience-strip>div,.practice{
+  position:relative;
+  overflow:hidden;
+  transition:background-color .32s ease,transform .38s cubic-bezier(.16,1,.3,1);
+}
+.experience-strip>div:after,.practice:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:radial-gradient(circle at 18% 15%,rgba(237,74,22,.14),transparent 42%);
+  opacity:0;
+  transform:scale(.86);
+  transition:opacity .3s ease,transform .5s cubic-bezier(.16,1,.3,1);
+}
+.experience-strip>div:hover,.practice:hover{
+  background-color:rgba(237,74,22,.045);
+  transform:translateY(-3px);
+}
+.experience-strip>div:hover:after,.practice:hover:after{opacity:1;transform:scale(1)}
+.experience-strip strong,.practice h3{
+  transition:color .25s ease,transform .35s cubic-bezier(.16,1,.3,1);
+}
+.experience-strip>div:hover strong,.practice:hover h3{
+  color:var(--blue);
+  transform:translateX(5px);
+}
+
+/* Tools gain a diagonal light sweep while preserving the existing color reveal. */
+.tool:after{
+  content:"";
+  position:absolute;
+  inset:-60% -35%;
+  background:linear-gradient(105deg,transparent 42%,rgba(255,255,255,.09) 49%,transparent 56%);
+  transform:translateX(-62%);
+  transition:transform .72s cubic-bezier(.16,1,.3,1);
+  pointer-events:none;
+}
+.tool:hover:after{transform:translateX(62%)}
+.tool:active,.study button:active,.contact-actions a:active{transform:translateY(1px) scale(.992)}
+
+@media(max-width:600px){
+  .hero-art{height:350px}
+  .about-copy p:first-child{font-size:17px;line-height:1.62}
+  .about-copy p:not(:first-child):not(.offdesk){font-size:14px;line-height:1.72}
+  .work .work-heading h2{font-size:clamp(37px,10vw,48px)}
+}
+@media(hover:none),(pointer:coarse){
+  .study:hover:before,.study:hover:after{transform:translateX(-102%)}
+  .study:hover button strong{color:inherit;transform:none}
+  .study:hover button i{transform:none}
+  .experience-strip>div:hover,.practice:hover{transform:none;background-color:transparent}
+  .experience-strip>div:hover:after,.practice:hover:after{opacity:0}
+  .tool:hover:after{transform:translateX(-62%)}
+  .study:active:before,.study.active:before{transform:none}
+  .study:active:after,.study.active:after{transform:scaleY(1)}
+  .study:active button strong,.study.active button strong{color:var(--blue);transform:translateX(5px)}
+  .study:active button i{color:var(--blue);transform:rotate(90deg)}
+  .study.active button i{color:var(--blue);transform:rotate(180deg)}
+  .experience-strip>div:active,.practice:active{
+    background-color:rgba(237,74,22,.07);
+    transform:scale(.985);
+  }
+  .experience-strip>div:active:after,.practice:active:after{opacity:1;transform:scale(1)}
+  .experience-strip>div:active strong,.practice:active h3{color:var(--blue);transform:translateX(4px)}
+  .tool:active:after{transform:translateX(62%)}
+  .contact-actions a:active{background-size:100% 100%}
+  .contact-actions a:active:after{transform:scaleX(1)}
+  .contact-actions a:active>span:last-child{color:var(--blue);transform:rotate(-45deg)}
+  .menu-trigger:active .menu-lines i:first-child{transform:translateX(3px);width:12px}
+  .menu-trigger:active .menu-lines i:last-child{transform:translateX(-2px);width:10px}
+}
+@media(prefers-reduced-motion:reduce){
+  .nav nav a:after,.wordmark,.study:before,.study:after,.study button strong,
+  .study button i,.experience-strip>div,.practice,.tool:after{transition:none!important}
+}
+
 /* Contact micro-interactions: directional fill, precise arrow motion, and scroll fill. */
 .contact-heading{
   width:100%;
