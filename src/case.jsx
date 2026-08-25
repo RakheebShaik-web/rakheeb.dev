@@ -26,7 +26,7 @@ function CaseStudy() {
     return () => { document.title = "Rakheeb Shaikh — Algorithmic Trader & Quant Developer"; };
   }, []);
   return <main className="case">
-    <header className="case-nav"><a href="/">← RAKHEEB SHAIKH</a><a href="https://github.com/RakheebShaik-web/alpaca.bot-eod-dashboard" target="_blank" rel="noreferrer">VIEW DASHBOARD ↗</a></header>
+    <header className="case-nav"><a href="/">← RAKHEEB SHAIKH</a><a href="mailto:shaikrakheeb280@gmail.com">REQUEST DETAILS ↗</a></header>
     <section className="case-hero">
       <p className="case-eyebrow">CASE STUDY · LIVE AUTOMATION</p>
       <h1>Automated U.S.<br/><em>Stock Trading Bot</em></h1>
@@ -49,8 +49,9 @@ function CaseStudy() {
       ))}</div>
     </section>
     <section className="case-section case-cta">
-      <h2>Operated daily,<br/><em>documented publicly.</em></h2>
-      <a href="https://github.com/RakheebShaik-web/alpaca.bot-eod-dashboard" target="_blank" rel="noreferrer" className="case-link">VIEW THE OPERATIONS DASHBOARD <b>↗</b></a>
+      <h2>Operated daily,<br/><em>built to be explained.</em></h2>
+      <p className="case-lede" style={{marginBottom:"34px"}}>The implementation is private. Happy to walk through architecture, invariants, and operational history in detail on request.</p>
+      <a href="mailto:shaikrakheeb280@gmail.com" className="case-link">REQUEST A WALKTHROUGH <b>↗</b></a>
     </section>
     <footer className="case-foot"><span>© 2026 RAKHEEB SHAIKH</span><a href="/">BACK TO SITE ↑</a></footer>
   </main>;
