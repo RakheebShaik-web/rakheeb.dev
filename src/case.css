@@ -1,6 +1,7 @@
 :root{--blue:#f14c13;--black:#070706;--white:#f3f0ea;--dim:#8d867e;--line:rgba(243,240,234,.14)}*{box-sizing:border-box}html,body{margin:0;background:var(--black);color:var(--white);font-family:"SF Mono",ui-monospace,Menlo,Consolas,monospace}.case{max-width:1100px;margin:0 auto;padding:0 5vw 40px}
-.case-nav{display:flex;justify-content:space-between;padding:26px 0;font:500 10px/1 monospace;letter-spacing:.16em}
-.case-nav a{color:var(--white);text-decoration:none;border-bottom:1px solid transparent}.case-nav a:hover{color:var(--blue)}
+.case-nav{display:flex;justify-content:space-between;align-items:center;padding:26px 0;font:500 10px/1 monospace;letter-spacing:.16em}
+.case-nav a{color:var(--white);text-decoration:none;border-bottom:1px solid transparent;min-height:44px;display:inline-flex;align-items:center}
+.case-nav a:hover{color:var(--blue)}
 .case-hero{padding:70px 0 90px;border-bottom:1px solid var(--line)}.case-eyebrow{font-size:9px;letter-spacing:.22em;color:var(--blue);margin:0 0 30px}
 .case-hero h1,.case-cta h2{font-weight:300;line-height:.9;letter-spacing:-.05em;text-transform:uppercase;margin:0;font-size:clamp(44px,7vw,96px)}
 .case-hero h1 em,.case-cta h2 em{font-style:normal;color:transparent;-webkit-text-stroke:1px rgba(243,240,234,.6)}
@@ -18,9 +19,20 @@
 .inv p{width:100%;margin:0;font-size:12px;line-height:1.8;color:#aaa59d;max-width:640px}
 .inv:hover strong{color:var(--blue)}
 .case-cta{padding-bottom:100px}.case-cta h2{margin-bottom:46px}
-.case-link{display:inline-block;color:var(--white);text-decoration:none;font:500 11px monospace;letter-spacing:.14em;border-bottom:1px solid var(--blue);padding-bottom:10px}
+.case-link{display:inline-flex;align-items:center;min-height:44px;color:var(--white);text-decoration:none;font:500 11px monospace;letter-spacing:.14em;border-bottom:1px solid var(--blue);padding:0 0 10px}
 .case-link:hover{color:var(--blue)}
 .case-foot{display:flex;justify-content:space-between;padding-top:40px;border-top:1px solid var(--line);font-size:9px;letter-spacing:.14em;color:#77716a}
 .case-foot a{color:inherit;text-decoration:none}.case-foot a:hover{color:var(--blue)}
 @media(max-width:900px){.lifecycle{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:560px){.lifecycle{grid-template-columns:1fr}.case-section{padding:56px 0 12px}}
+@media(max-width:560px){
+  .lifecycle{grid-template-columns:1fr}
+  .case-section{padding:56px 0 12px}
+  .case-hero{padding:48px 0 60px}
+  .case-intro{font-size:13px;margin-top:26px}
+  .life-step{padding:22px 18px 28px}
+  .inv{padding:19px 0}
+  .inv strong{font-size:13px;line-height:1.4;padding-right:10px}
+  .inv p{font-size:11px}
+  .case-cta{padding-bottom:70px}
+  .case-foot{flex-direction:column;gap:14px;align-items:flex-start}
+}
